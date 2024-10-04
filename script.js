@@ -22,7 +22,7 @@ const setSentData = function(newSentData) {
     if (!sentDataEl) {
         console.error("Could not find sent data element");
     }
-    sentDataEl.innerHTML = newSentData;
+    sentDataEl.innerHTML = `${newSentData}/${window.DATA.length}`;
 }
 
 
@@ -93,18 +93,17 @@ const tryToSendData = async function() {
 sendDataTimeout = setTimeout(tryToSendData, 1000);
 
 
-
-const testButton = document.createElement("button");
-testButton.innerHTML = "Test";
-testButton.onclick = function() {
+const answerQuestion = function(question, answer) {
+    const uuid = Math.random();
     window.DATA.push({
         "time": (new Date()).toISOString(),
-        "data": Math.random(),
-        "content": "Test",
+        "uuid": uuid,
+        "question": question,
+        "answer": answer,
     });
+    setSentData(window.SENTDATA);
 };
 
-document.body.appendChild(testButton);
 
 const downloadData = function() {
     const fullSheet = [];
