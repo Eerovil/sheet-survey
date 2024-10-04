@@ -15,20 +15,33 @@
         </div>
         <div id="survey">
             <div class="question">
-                <h1>Mitä pidit konsertista?</h1>
-                <div class="answers">
-                    <button onclick="answerQuestion('mitäpidit', 'Hyvä')">Hyvä</button>
-                    <button onclick="answerQuestion('mitäpidit', 'Huono')">Huono</button>
+                <h1 class="title">Mitä pidit konsertista?</h1>
+                <div class="answers" data-question="mitäpidit">
+                    <div class="answer img" onclick="answerQuestion(this, '1')" alt="1" style="background-image: url('smiley-1.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(this, '2')" alt="2" style="background-image: url('smiley-2.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(this, '3')" alt="3" style="background-image: url('smiley-3.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(this, '4')" alt="4" style="background-image: url('smiley-4.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(this, '5')" alt="5" style="background-image: url('smiley-5.png');"></div>
                 </div>
             </div>
             <div class="question">
-                <h1>Mistä kuulit konsertista?</h1>
-                <div class="answers">
-                    <button onclick="answerQuestion('mistäkuulit', 'Facebook')">Facebook</button>
-                    <button onclick="answerQuestion('mistäkuulit', 'Instagram')">Instagram</button>
-                    <button onclick="answerQuestion('mistäkuulit', 'Twitter')">Twitter</button>
-                    <button onclick="answerQuestion('mistäkuulit', 'Kaveri')">Kaveri</button>
-                    <button onclick="answerQuestion('mistäkuulit', 'Mainos')">Mainos</button>
+                <h1 class="title">Mistä kuulit konsertista?</h1>
+                <div class="answers" data-question="mistäkuulit">
+                    <div class="answer text" onclick="answerQuestion(this, 'Facebook')">
+                        <img src="facebook.png">Facebook
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(this, 'Instagram')">
+                        <img src="instagram.svg">Instagram
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(this, 'Twitter')">
+                        <img src="twitter.png">Twitter
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(this, 'Kaveri')">
+                        <img src="whatsapp.png">Kaveri
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(this, 'Mainos')">
+                        <img src="advertisement.svg">Mainos
+                    </div>
             </div>
         </div>
     </body>
@@ -50,13 +63,88 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-around;
             position: fixed;
-            top: 0;
+            top: 5%;
             left: 0;
 
             width: 100%;
-            height: 100%;
+            height: 90%;
+
+            user-select: none;
+        }
+        .question {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .question .title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-family: sans-serif;
+            
+            margin-bottom: 2rem;
+
+            text-align: center;
+
+            width: 80vw;
+
+            color: #333;
+        }
+        .answers {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 5vw;
+        }
+        .answer.img {
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+
+            width: 10vw;
+            height: 10vw;
+        }
+        .answer.text {
+            font-size: 1.5rem;
+            font-family: sans-serif;
+            padding: 1rem;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            cursor: pointer;
+
+            font-size: 2rem;
+            font-family: sans-serif;
+            
+        }
+        .answer.text img {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        .answer.clicked {
+            animation: clicked 1s;
+        }
+        @keyframes clicked {
+            0% {
+                transform: scale(1);
+            }
+            10% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            20% {
+                transform: scale(1.3) rotate(-10deg);
+            }
+            35% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
     </style>
     <script src="script.js"></script>

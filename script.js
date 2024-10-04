@@ -14,6 +14,7 @@ if (!webhook) {
 
 window.DATA = [];
 window.SENTDATA = 0;
+window.TIMEOUT = {};
 
 
 const setSentData = function(newSentData) {
@@ -92,8 +93,32 @@ const tryToSendData = async function() {
 
 sendDataTimeout = setTimeout(tryToSendData, 1000);
 
+const MAXTIMEOUT = 1000;
 
-const answerQuestion = function(question, answer) {
+const addTimeout = function(question) {
+    // Find the .answers element with data-question attribute equal to question
+    window.TIMEOUT[question] = MAXTIMEOUT;
+    const interval = setInterval(() => {
+        window.TIMEOUT[question] -= 100;
+        // Show the timeout in the answers element
+        if (window.TIMEOUT[question] <= 0) {
+            clearInterval(interval);
+            delete window.TIMEOUT[question];
+        }
+    }, 100);
+}
+
+
+const answerQuestion = function(element, answer) {
+    const question = element.parentElement.getAttribute("data-question");
+    if (window.TIMEOUT[question]) {
+        return;
+    }
+    addTimeout(question);
+    element.classList.add("clicked");
+    setTimeout(() => {
+        element.classList.remove("clicked");
+    }, MAXTIMEOUT);
     const uuid = Math.random();
     window.DATA.push({
         "time": (new Date()).toISOString(),
