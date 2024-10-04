@@ -140,7 +140,8 @@ const answerQuestion = function(element, answer) {
     setTimeout(() => {
         element.classList.remove("clicked");
     }, MAXTIMEOUT);
-    const uuid = Math.random();
+    // 20 char random string
+    const uuid = Math.random().toString(36).substring(2, 22);
     window.DATA.push({
         "time": (new Date()).toISOString(),
         "uuid": uuid,
