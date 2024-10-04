@@ -131,7 +131,6 @@ const addTimeout = function(question, answer) {
 
 
 const answerQuestion = function(event, element, answer) {
-    event.preventDefault();
     const question = element.parentElement.getAttribute("data-question");
     if (window.TIMEOUT[question]) {
         return;
@@ -171,15 +170,3 @@ const downloadData = function() {
 }
 
 document.getElementById("download-data").onclick = downloadData;
-
-
-// // ipad fix: add touchstart: preventDefault to all divs and imgs
-const elements = document.querySelectorAll(".title");
-for (const element of elements) {
-    // If the element is a button, do not add the event listener
-    // Or if the element is class .answer
-    console.log("Adding touchstart event listener to element", element);
-    element.addEventListener("touchstart", (event) => {
-        event.preventDefault();
-    });
-}
