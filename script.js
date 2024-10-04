@@ -106,3 +106,21 @@ testButton.onclick = function() {
 
 document.body.appendChild(testButton);
 
+const downloadData = function() {
+    const fullSheet = [];
+    const header = Object.keys(window.DATA).map(header => ({value: header, type: 'string'}));
+    fullSheet.push(header);
+    for (const data of window.DATA) {
+        const row = Object.values(data).map(value => ({value: value, type: 'string'}));
+        fullSheet.push(row);
+    }
+    const filename = 'survey';
+    zipcelx({
+      filename: filename,
+      sheet: {
+        data: fullSheet
+      }
+    });
+}
+
+document.getElementById("download-data").onclick = downloadData;
