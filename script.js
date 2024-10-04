@@ -95,12 +95,33 @@ sendDataTimeout = setTimeout(tryToSendData, 1000);
 
 const MAXTIMEOUT = 1000;
 
-const addTimeout = function(question) {
+const addTimeout = function(question, answer) {
     // Find the .answers element with data-question attribute equal to question
     window.TIMEOUT[question] = MAXTIMEOUT;
     const interval = setInterval(() => {
         window.TIMEOUT[question] -= 100;
-        // Show the timeout in the answers element
+        if (question == 'mitäpidit') {
+            if (answer == '1') {
+                // Show red tint aroudn the screen
+                document.body.style.backgroundColor = `rgba(255, 0, 0, ${(window.TIMEOUT[question] / MAXTIMEOUT) * 0.1})`;
+            }
+            if (answer == '2') {
+                // Show red-orange tint around the screen
+                document.body.style.backgroundColor = `rgba(255, 69, 0, ${(window.TIMEOUT[question] / MAXTIMEOUT) * 0.1})`;
+            }
+            if (answer == '3') {
+                // Show orange tint around the screen
+                document.body.style.backgroundColor = `rgba(255, 165, 0, ${(window.TIMEOUT[question] / MAXTIMEOUT) * 0.1})`;
+            }
+            if (answer == '4') {
+                // Show yellow tint around the screen
+                document.body.style.backgroundColor = `rgba(255, 255, 0, ${(window.TIMEOUT[question] / MAXTIMEOUT) * 0.1})`;
+            }
+            if (answer == '5') {
+                // Show green tint around the screen
+                document.body.style.backgroundColor = `rgba(0, 255, 0, ${(window.TIMEOUT[question] / MAXTIMEOUT) * 0.1})`;
+            } 
+        }
         if (window.TIMEOUT[question] <= 0) {
             clearInterval(interval);
             delete window.TIMEOUT[question];
@@ -114,7 +135,7 @@ const answerQuestion = function(element, answer) {
     if (window.TIMEOUT[question]) {
         return;
     }
-    addTimeout(question);
+    addTimeout(question, answer);
     element.classList.add("clicked");
     setTimeout(() => {
         element.classList.remove("clicked");
