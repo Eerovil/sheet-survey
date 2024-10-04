@@ -17,29 +17,29 @@
             <div class="question">
                 <h1 class="title">Mitä pidit konsertista?</h1>
                 <div class="answers" data-question="mitäpidit">
-                    <div class="answer img" onclick="answerQuestion(this, '1')" alt="1" style="background-image: url('smiley-1.png');"></div>
-                    <div class="answer img" onclick="answerQuestion(this, '2')" alt="2" style="background-image: url('smiley-2.png');"></div>
-                    <div class="answer img" onclick="answerQuestion(this, '3')" alt="3" style="background-image: url('smiley-3.png');"></div>
-                    <div class="answer img" onclick="answerQuestion(this, '4')" alt="4" style="background-image: url('smiley-4.png');"></div>
-                    <div class="answer img" onclick="answerQuestion(this, '5')" alt="5" style="background-image: url('smiley-5.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(event, this, '1')" alt="1" style="background-image: url('smiley-1.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(event, this, '2')" alt="2" style="background-image: url('smiley-2.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(event, this, '3')" alt="3" style="background-image: url('smiley-3.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(event, this, '4')" alt="4" style="background-image: url('smiley-4.png');"></div>
+                    <div class="answer img" onclick="answerQuestion(event, this, '5')" alt="5" style="background-image: url('smiley-5.png');"></div>
                 </div>
             </div>
             <div class="question">
                 <h1 class="title">Mistä kuulit konsertista?</h1>
                 <div class="answers" data-question="mistäkuulit">
-                    <div class="answer text" onclick="answerQuestion(this, 'Facebook')">
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Facebook')">
                         <img src="facebook.png">Facebook
                     </div>
-                    <div class="answer text" onclick="answerQuestion(this, 'Instagram')">
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Instagram')">
                         <img src="instagram.svg">Instagram
                     </div>
-                    <div class="answer text" onclick="answerQuestion(this, 'Twitter')">
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Twitter')">
                         <img src="twitter.png">Twitter
                     </div>
-                    <div class="answer text" onclick="answerQuestion(this, 'Kaveri')">
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Kaveri')">
                         <img src="whatsapp.png">Kaveri
                     </div>
-                    <div class="answer text" onclick="answerQuestion(this, 'Mainos')">
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Mainos')">
                         <img src="advertisement.svg">Mainos
                     </div>
             </div>
@@ -56,6 +56,9 @@
             top: 0;
             right: 0;
             padding: 1rem;
+        }
+        .status-wrapper > * {
+            margin-left: 0.1rem;
         }
         #survey {
             display: flex;
