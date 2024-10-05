@@ -5,25 +5,57 @@ const urlParams = new URLSearchParams(queryString);
 
 let webhook = urlParams.get('webhook');
 
+if (webhook == 'null' || webhook == 'undefined' || webhook == null) {
+    webhook = null;
+}
+
+if (!webhook) {
+    // check local storage as well
+    webhook = window.localStorage.getItem("webhook");
+    if (webhook == 'null' || webhook == 'undefined' || webhook == null) {
+        webhook = null;
+    }
+}
 if (!webhook) {
     webhook = prompt("Enter your webhook URL");
     // Add the webhook to the URL (first encode it)
+    window.localStorage.setItem("webhook", webhook);
     window.location.href = window.location.href + "?webhook=" + encodeURIComponent(webhook);
 }
 
+const getAllData = function() {
+    return JSON.parse(window.localStorage.getItem("survey-lines") || "[]");
+}
+const allDataSet = function(data) {
+    window.localStorage.setItem("survey-lines", JSON.stringify(data));
+}
+const allDataPush = function(data) {
+    const allData = getAllData();
+    allData.push(data);
+    allDataSet(allData);
+}
+const allDataUpdate = function(uuid, newData) {
+    const allData = getAllData();
+    for (let i = 0; i < allData.length; i++) {
+        if (allData[i].uuid == uuid) {
+            allData[i] = {...allData[i], ...newData};
+            break;
+        }
+    }
+    allDataSet(allData);
+}
 
-window.DATA = [];
-window.SENTDATA = 0;
+
 window.TIMEOUT = {};
 
 
-const setSentData = function(newSentData) {
-    window.SENTDATA = newSentData;
+const updateSentData = function() {
     const sentDataEl = document.getElementById("sent-data");
     if (!sentDataEl) {
         console.error("Could not find sent data element");
     }
-    sentDataEl.innerHTML = `${newSentData}/${window.DATA.length}`;
+    const allData = getAllData();
+    sentDataEl.innerHTML = `${allData.filter(d => d.sent).length}/${allData.length}`;
 }
 
 
@@ -59,9 +91,10 @@ const sendData = async function(data) {
 };
 
 const getNextDataToSend = function() {
-    for (let i = 0; i < window.DATA.length; i++) {
-        if (!window.DATA[i].sent) {
-            return window.DATA[i];
+    const allData = getAllData();
+    for (let i = 0; i < allData.length; i++) {
+        if (!allData[i].sent) {
+            return allData[i];
         }
     }
     return null;
@@ -76,8 +109,8 @@ const tryToSendData = async function() {
         try {
             await sendData(data);
             updateDataSending("idle");
-            setSentData(window.SENTDATA + 1);
-            data.sent = true;
+            updateSentData();
+            allDataUpdate(data.uuid, {sent: true});
             sendDataTimeout = setTimeout(tryToSendData, 10);
         } catch (error) {
             console.error("Error sending data", error);
@@ -91,7 +124,8 @@ const tryToSendData = async function() {
 }
 
 
-sendDataTimeout = setTimeout(tryToSendData, 1000);
+sendDataTimeout = setTimeout(tryToSendData, 10);
+updateSentData();
 
 const MAXTIMEOUT = 1000;
 
@@ -130,6 +164,15 @@ const addTimeout = function(question, answer) {
 }
 
 
+const basicDateTime = function() {
+    // Return like this formatted 31.12.2021 klo 23.59.59
+    // Remember to add leading zeros
+    let date = new Date();
+    const lpad = (s) => s.toString().padStart(2, '0');
+    return `${date.getDate()}.${lpad(date.getMonth() + 1)}.${date.getFullYear()} klo ${lpad(date.getHours())}.${lpad(date.getMinutes())}.${lpad(date.getSeconds())}`;
+}
+
+
 const answerQuestion = function(event, element, answer) {
     const question = element.parentElement.getAttribute("data-question");
     if (window.TIMEOUT[question]) {
@@ -142,21 +185,22 @@ const answerQuestion = function(event, element, answer) {
     }, MAXTIMEOUT);
     // 20 char random string
     const uuid = Math.random().toString(36).substring(2, 22);
-    window.DATA.push({
-        "time": (new Date()).toISOString(),
+    allDataPush({
+        "time": basicDateTime(),
         "uuid": uuid,
         "question": question,
         "answer": answer,
     });
-    setSentData(window.SENTDATA);
+    updateSentData();
 };
 
 
 const downloadData = function() {
+    const allData = getAllData();
     const fullSheet = [];
-    const header = Object.keys(window.DATA).map(header => ({value: header, type: 'string'}));
+    const header = Object.keys(allData).map(header => ({value: header, type: 'string'}));
     fullSheet.push(header);
-    for (const data of window.DATA) {
+    for (const data of allData) {
         const row = Object.values(data).map(value => ({value: value, type: 'string'}));
         fullSheet.push(row);
     }
