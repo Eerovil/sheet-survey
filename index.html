@@ -15,6 +15,26 @@
         </div>
         <div id="survey">
             <div class="question">
+                <h1 class="title">Mistä kuulit konsertista?</h1>
+                <div class="answers" data-question="mistäkuulit">
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Facebook')">
+                        <img src="facebook.png">Facebook-mainos
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Instagram')">
+                        <img src="instagram.svg">Instagram-mainos
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Mainos')">
+                        <img src="advertisement.svg">Mainostaulu
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Kaveri')">
+                        <img src="whatsapp.png">Kaveri/Puskaradio
+                    </div>
+                    <div class="answer text" onclick="answerQuestion(event, this, 'Muu')">
+                        <img src="question.png">Muu
+                    </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="question">
                 <h1 class="title">Mitä pidit konsertista?</h1>
                 <div class="answers" data-question="mitäpidit">
                     <div class="answer img" onclick="answerQuestion(event, this, '1')" alt="1" style="background-image: url('smiley-1.png');"></div>
@@ -23,28 +43,6 @@
                     <div class="answer img" onclick="answerQuestion(event, this, '4')" alt="4" style="background-image: url('smiley-4.png');"></div>
                     <div class="answer img" onclick="answerQuestion(event, this, '5')" alt="5" style="background-image: url('smiley-5.png');"></div>
                 </div>
-            </div>
-            <div class="question">
-                <h1 class="title">Mistä kuulit konsertista?</h1>
-                <div class="answers" data-question="mistäkuulit">
-                    <div class="answer text" onclick="answerQuestion(event, this, 'Facebook')">
-                        <img src="facebook.png">Facebook
-                    </div>
-                    <div class="answer text" onclick="answerQuestion(event, this, 'Instagram')">
-                        <img src="instagram.svg">Instagram
-                    </div>
-                    <div class="answer text" onclick="answerQuestion(event, this, 'Twitter')">
-                        <img src="twitter.png">Twitter
-                    </div>
-                    <div class="answer text" onclick="answerQuestion(event, this, 'Kaveri')">
-                        <img src="whatsapp.png">Kaveri
-                    </div>
-                    <div class="answer text" onclick="answerQuestion(event, this, 'Mainos')">
-                        <img src="advertisement.svg">Mainos
-                    </div>
-                    <div class="answer text" onclick="answerQuestion(event, this, 'Muu')">
-                        Muu
-                    </div>
             </div>
         </div>
     </body>
@@ -107,20 +105,25 @@
 
             color: #333;
         }
+        .spacer {
+            height: 20vh;
+        }
         .answers {
             display: flex;
             flex-direction: row;
             align-items: center;
             justify-content: space-around;
             width: 100%;
+
+            display: flex;
         }
         .answer.img {
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
 
-            width: 15vw;
-            height: 15vw;
+            width: 5vw;
+            height: 5vw;
         }
         .answer.text {
             font-size: 1.5rem;
@@ -133,11 +136,17 @@
             font-size: 2rem;
             font-family: sans-serif;
             
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            min-width: 10vw;
         }
         .answer.text img {
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 5rem;
+            height: 5rem;
             margin-right: 1rem;
+            margin-bottom: 0.5rem;
         }
         
         .answer.clicked {
